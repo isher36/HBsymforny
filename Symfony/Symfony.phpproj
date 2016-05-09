@@ -14,7 +14,8 @@
     <RuntimeVersion>5.6</RuntimeVersion>
     <EnvName>PHPDev</EnvName>
     <PHPDevHostName>localhost</PHPDevHostName>
-    <PHPDevAutoPort>true</PHPDevAutoPort>
+    <PHPDevAutoPort>false</PHPDevAutoPort>
+    <PHPDevPort>80</PHPDevPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>
@@ -35,6 +36,7 @@
     <Content Include="app\config\security.yml" />
     <Content Include="app\config\services.yml" />
     <Content Include="app\Resources\views\base.html.twig" />
+    <Content Include="app\Resources\views\blog\index.html.twig" />
     <Content Include="app\Resources\views\default\index.html.twig" />
     <Content Include="bin\console" />
     <Content Include="bin\symfony_requirements" />
@@ -45,10 +47,6 @@
     <Content Include="src\.htaccess" />
     <Content Include="var\bootstrap.php.cache" />
     <Content Include="var\cache\.gitkeep" />
-    <Content Include="var\cache\dev\appDevDebugProjectContainer.php.meta" />
-    <Content Include="var\cache\dev\appDevDebugProjectContainer.xml" />
-    <Content Include="var\cache\dev\appDevDebugProjectContainerCompiler.log" />
-    <Content Include="var\cache\dev\classes.map" />
     <Content Include="var\logs\.gitkeep" />
     <Content Include="var\logs\dev.log" />
     <Content Include="var\sessions\.gitkeep" />
@@ -2498,6 +2496,7 @@
     <Folder Include="app\Resources\" />
     <Folder Include="app\Resources\views\" />
     <Folder Include="app\Resources\views\default\" />
+    <Folder Include="app\Resources\views\blog\" />
     <Folder Include="bin\" />
     <Folder Include="src\" />
     <Folder Include="src\AppBundle\" />
@@ -2507,9 +2506,6 @@
     <Folder Include="tests\AppBundle\Controller\" />
     <Folder Include="var\" />
     <Folder Include="var\cache\" />
-    <Folder Include="var\cache\dev\" />
-    <Folder Include="var\cache\dev\doctrine\" />
-    <Folder Include="var\cache\dev\doctrine\orm\" />
     <Folder Include="var\logs\" />
     <Folder Include="var\sessions\" />
     <Folder Include="vendor\" />
@@ -3877,9 +3873,9 @@
     <Compile Include="app\AppKernel.php" />
     <Compile Include="app\autoload.php" />
     <Compile Include="src\AppBundle\AppBundle.php" />
+    <Compile Include="src\AppBundle\Controller\BlogController.php" />
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
     <Compile Include="tests\AppBundle\Controller\DefaultControllerTest.php" />
-    <Compile Include="var\cache\dev\appDevDebugProjectContainer.php" />
     <Compile Include="var\SymfonyRequirements.php" />
     <Compile Include="vendor\autoload.php" />
     <Compile Include="vendor\bin\doctrine.php" />
