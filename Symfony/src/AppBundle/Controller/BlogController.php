@@ -17,8 +17,24 @@ class BlogController extends Controller
      * requirements={"page":"\d+"})
      */
     public function indexAction(Request $request, $page)
-    {      
+    {
+        $articles = [
+            ['id' => 1,
+            'titre' => 'hello world 1',
+            'contenu'=> 'Lorem <strong>ipsum</strong>...',
+            'date' => new \DateTime(),
+            'image'=> 'https://robohash.org/hello',
+            ],
+            [
+            'id' => 2,
+            'titre' => 'hello world 2',
+            'contenu'=> 'Lorem <strong>ipsum</strong>...',
+            'date' => new \DateTime(),
+            ]
+            ];
+
         return $this->render('blog/index.html.twig', [
+            'articles' => $articles,
             'page' => $page,
         ]);
     }
@@ -36,7 +52,6 @@ class BlogController extends Controller
             'contenu'=> 'Lorem <strong>ipsum</strong>...',
             'date' => new \DateTime(),
             ];
-
 
         return $this->render('blog/detail.html.twig', [
                 'article' => $article,
