@@ -36,6 +36,7 @@
     <Content Include="app\config\security.yml" />
     <Content Include="app\config\services.yml" />
     <Content Include="app\Resources\views\base.html.twig" />
+    <Content Include="app\Resources\views\blog\layout.html.twig" />
     <Content Include="app\Resources\views\blog\remove.html.twig" />
     <Content Include="app\Resources\views\blog\add.html.twig" />
     <Content Include="app\Resources\views\blog\edit.html.twig" />
@@ -57,6 +58,7 @@
     <Content Include="web\.htaccess" />
     <Content Include="web\apple-touch-icon.png" />
     <Content Include="web\bundles\framework" />
+    <Content Include="web\css\myStyle.css" />
     <Content Include="web\favicon.ico" />
     <Content Include="web\robots.txt" />
   </ItemGroup>
@@ -80,6 +82,7 @@
     <Folder Include="var\sessions\" />
     <Folder Include="web\" />
     <Folder Include="web\bundles\" />
+    <Folder Include="web\css\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app\AppCache.php" />

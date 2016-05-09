@@ -1,18 +1,21 @@
-<h1>
-	{{page}}
-</h1>
-<ul>
-  {% for article in articles  %}
+{% extends "blog/layout.html.twig" %}
+
+{% block body %}
+<div>
+  <h1>
+    {{page}}
+  </h1>
+  <ul>
+    {% for article in articles  %}
     <li>
-      {{  article.titre }}
+      {{ article.titre }}
       {% if article.image is defined  %}
       <img src='{{article.image}}' />
       {% endif %}
     </li>
-  {% else %}
+    {% else %}
     <li>aucun article trouvé</li>
-  {% endfor %}
-</ul>
-
-</body>
-
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
