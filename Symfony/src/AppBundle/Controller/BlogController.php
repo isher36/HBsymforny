@@ -6,10 +6,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/blog")
+ */
 class BlogController extends Controller
 {
     /**
-     * @Route("/blog/{page}", name="blog_homepage",
+     * @Route("/{page}", name="blog_homepage",
      * defaults={"page":1},
      * requirements={"page":"\d+"})
      */
@@ -23,7 +26,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/blog/detail/{page}", name="blog_detail_homepage",
+     * @Route("/detail/{page}", name="blog_detail_homepage",
      * defaults={"page":1},
      * requirements={"page":"\d+"})
      */
