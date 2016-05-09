@@ -17,23 +17,29 @@ class BlogController extends Controller
      * requirements={"page":"\d+"})
      */
     public function indexAction(Request $request, $page)
-    {
-      
+    {      
         return $this->render('blog/index.html.twig', [
-            //'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
             'page' => $page,
         ]);
     }
 
     /**
-     * @Route("/detail/{page}", name="blog_detail_homepage",
-     * defaults={"page":1},
-     * requirements={"page":"\d+"})
+     * @Route("/detail/{id}", name="blog_detail_homepage",
+     * defaults={"id":1},
+     * requirements={"id":"\d+"})
      */
-    public function detailAction(Request $request,$page)
+    public function detailAction(Request $request,$id)
     {
+        $article = [
+            'id' => $id,
+            'titre' => 'hello world',
+            'contenu'=> 'Lorem ipsum...',
+            'date' => new \DateTime(),
+            ];
+
+
         return $this->render('blog/detail.html.twig', [
-                'page' => $page,
+                'article' => $article,
             ]);
     }
     /**
