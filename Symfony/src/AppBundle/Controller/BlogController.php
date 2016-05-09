@@ -18,7 +18,7 @@ class BlogController extends Controller
      */
     public function indexAction(Request $request, $page)
     {
-        // replace this example code with whatever you need
+      
         return $this->render('blog/index.html.twig', [
             //'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
             'page' => $page,
@@ -34,6 +34,39 @@ class BlogController extends Controller
     {
         return $this->render('blog/detail.html.twig', [
                 'page' => $page,
+            ]);
+    }
+    /**
+     * @Route("/edit/{id}", name="blog_edit_homepage",
+     * defaults={"id":1},
+     * requirements={"id":"\d+"})
+     */
+    public function EditAction(Request $request,$id)
+    {
+        return $this->render('blog/edit.html.twig', [
+                'id' => $id,
+            ]);
+    }
+    /**
+     * @Route("/add/{id}", name="blog_add_homepage",
+     * defaults={"id":1},
+     * requirements={"id":"\d+"})
+     */
+    public function AddAction(Request $request,$id)
+    {
+        return $this->render('blog/add.html.twig', [
+                'id' => $id,
+            ]);
+    }
+    /**
+     * @Route("/remove/{id}", name="blog_remove_homepage",
+     * defaults={"id":1},
+     * requirements={"id":"\d+"})
+     */
+    public function RemoveAction(Request $request,$id)
+    {
+        return $this->render('blog/remove.html.twig', [
+                'id' => $id,
             ]);
     }
 }
