@@ -1,7 +1,11 @@
 <article>
   <h1>
     {{article['titre']}}
-  </h1>  
+  </h1>
+  <p>{{article.contenu|raw}}<br>
+    <em>{{article.date|date('d-m-Y')}}</em>
+  </br>
+</p>
 </article>
 
 

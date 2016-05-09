@@ -33,7 +33,7 @@ class BlogController extends Controller
         $article = [
             'id' => $id,
             'titre' => 'hello world',
-            'contenu'=> 'Lorem ipsum...',
+            'contenu'=> 'Lorem <strong>ipsum</strong>...',
             'date' => new \DateTime(),
             ];
 
