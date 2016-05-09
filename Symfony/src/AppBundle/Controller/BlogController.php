@@ -21,4 +21,16 @@ class BlogController extends Controller
             'page' => $page,
         ]);
     }
+
+    /**
+     * @Route("/blog/detail/{page}", name="blog_detail_homepage",
+     * defaults={"page":1},
+     * requirements={"page":"\d+"})
+     */
+    public function detailAction(Request $request,$page)
+    {
+        return $this->render('blog/detail.html.twig', [
+                'page' => $page,
+            ]);
+    }
 }
