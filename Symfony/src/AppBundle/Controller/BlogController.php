@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\Image;
+use AppBundle\Entity\Commentaire;
+
+//use AppBundle\Form\ArticleType;
 
 /**
  * @Route("/blog")
@@ -37,12 +40,18 @@ class BlogController extends Controller
      */
     public function detailAction(Request $request,$id)
     {
-        $repA = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
-
+        $em = $this->getDoctrine()->getManager();
+        $repA = $em->getRepository('AppBundle:Article');
+                
         $article = $repA->find($id);
 
+        $repC =$em->getRepository('AppBundle:Commentaire');
+
+        $coms = $repC->findBy(array('article' => $article),array('dateCreation' => 'desc'));
+        
         return $this->render('blog/detail.html.twig', [
                 'article' => $article,
+                'coms' => $coms
             ]);
     }
     /**
@@ -64,12 +73,34 @@ class BlogController extends Controller
             $article->setImage($img);
             $em->flush();
         }
-        $form = $this->createForm(ArticleType::class , $article);
+
+        $com = new Commentaire();
+        $com->setAuteur('toto')->setContenu('Ceci est un commentaire !!!');
+
+        $com->setArticle($article);
+        $em->persist($com);
+
+        $com2 = new Commentaire();
+        $com2->setAuteur('tata')->setContenu('Ceci est un autre commentaire !!!');
+        $com2->setArticle($article);
+        $em->persist($com2);
+
+        try{
+            $em->flush();
+        }
+        catch(\PDOException $e){
+            exit($e->getMessage());
+        }
+
+
+
+
+        // $form = $this->createForm(ArticleType::class , $article);
 
         return $this->render('blog/edit.html.twig', [
                     'id' => $id,
                     'article' => $article,
-                     'form' => $form->createView(),
+                     //'form' => $form->createView(),
             ]);
     }
 

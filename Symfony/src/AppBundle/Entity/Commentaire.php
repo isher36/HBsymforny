@@ -60,6 +60,15 @@ class Commentaire
      *
      * @return Commentaire
      */
+
+    /**
+     * @var Article
+     *
+     * @ORM\ManyToOne(targetEntity="Article")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $article;
+
     public function setAuteur($auteur)
     {
         $this->auteur = $auteur;
@@ -123,5 +132,33 @@ class Commentaire
     public function getDateCreation()
     {
         return $this->dateCreation;
+    }
+
+    /**
+     * Set article
+     *
+     * @param \AppBundle\Entity\Article $article
+     *
+     * @return Commentaire
+     */
+    public function setArticle(\AppBundle\Entity\Article $article)
+    {
+        $this->Article = $article;
+
+        return $this;
+    }
+
+    /**
+     * Get article
+     *
+     * @return \AppBundle\Entity\Article
+     */
+    public function getArticle()
+    {
+        return $this->Article;
+    }
+
+    public function __construct(){
+        $this->setDateCreation(new \DateTime());
     }
 }

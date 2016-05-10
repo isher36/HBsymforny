@@ -57,11 +57,12 @@ class Article
 
     private $publication;
     /**
-     * @var string
+     * @var Image
      *
      * @ORM\OneToOne(targetEntity="Image", cascade={"persist","remove"})
      */
     private $image;
+
 
     /**
      * Get id
