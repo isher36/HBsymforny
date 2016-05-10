@@ -30,6 +30,14 @@ class BlogController extends Controller
             'titre' => 'hello world 2',
             'contenu'=> 'Lorem <strong>ipsum</strong>...',
             'date' => new \DateTime(),
+            'image'=> 'https://robohash.org/hello',
+            ],
+                        [
+            'id' => 3,
+            'titre' => 'hello world 3',
+            'contenu'=> 'Lorem <strong>ipsum</strong>...',
+            'date' => new \DateTime(),
+            'image'=> 'https://robohash.org/hello',
             ]
             ];
 
@@ -62,7 +70,7 @@ class BlogController extends Controller
      * defaults={"id":1},
      * requirements={"id":"\d+"})
      */
-    public function EditAction(Request $request,$id)
+    public function editAction(Request $request,$id)
     {
         return $this->render('blog/edit.html.twig', [
                 'id' => $id,
@@ -73,7 +81,7 @@ class BlogController extends Controller
      * defaults={"id":1},
      * requirements={"id":"\d+"})
      */
-    public function AddAction(Request $request,$id)
+    public function addAction(Request $request,$id)
     {
         return $this->render('blog/add.html.twig', [
                 'id' => $id,
@@ -84,10 +92,32 @@ class BlogController extends Controller
      * defaults={"id":1},
      * requirements={"id":"\d+"})
      */
-    public function RemoveAction(Request $request,$id)
+    public function removeAction(Request $request,$id)
     {
         return $this->render('blog/remove.html.twig', [
                 'id' => $id,
             ]);
+    }
+
+    public function footerAction(Request $request)
+    {
+        $articles = [
+            ['id' => 1,
+            'titre' => 'hello world 1',
+            'contenu'=> 'Lorem <strong>ipsum</strong>...',
+            'date' => new \DateTime(),
+            'image'=> 'https://robohash.org/hello',
+            ],
+            [
+            'id' => 2,
+            'titre' => 'hello world 2',
+            'contenu'=> 'Lorem <strong>ipsum</strong>...',
+            'date' => new \DateTime(),
+            ]
+            ];
+
+        return $this->render('blog/footer.html.twig', [
+            'articles' => $articles,
+        ]);
     }
 }

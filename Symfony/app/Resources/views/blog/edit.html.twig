@@ -1,6 +1,5 @@
-<h1>edit :
-	{{id}}
-</h1>
-
-</body>
-
+{% extends 'blog/layout.html.twig' %}
+{% block body %}
+<h2>Modifier l'article 	{{id}}</h2>
+{% include 'blog/form.html.twig' %}
+{% endblock %}

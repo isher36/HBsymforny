@@ -1,21 +1,24 @@
 {% extends "blog/layout.html.twig" %}
 
+{% block title %}
+{{ parent() }} - Accueil
+{% endblock %}
 {% block body %}
 <div>
-  <h1>
-    {{page}}
-  </h1>
-  <ul>
-    {% for article in articles  %}
-    <li>
-      {{ article.titre }}
-      {% if article.image is defined  %}
-      <img src='{{article.image}}' />
-      {% endif %}
-    </li>
-    {% else %}
-    <li>aucun article trouvÃ©</li>
-    {% endfor %}
-  </ul>
+    <h1>
+        {{page}}
+    </h1>
+    <div class="row">
+        {% for article in articles  %}
+        <div class="col-xs-4">
+            {{ article.titre }}
+            {% if article.image is defined  %}
+            <img src='{{article.image}}' />
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="col-xs-4">aucun article trouvé</div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

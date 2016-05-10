@@ -36,6 +36,8 @@
     <Content Include="app\config\security.yml" />
     <Content Include="app\config\services.yml" />
     <Content Include="app\Resources\views\base.html.twig" />
+    <Content Include="app\Resources\views\blog\footer.html.twig" />
+    <Content Include="app\Resources\views\blog\form.html.twig" />
     <Content Include="app\Resources\views\blog\layout.html.twig" />
     <Content Include="app\Resources\views\blog\remove.html.twig" />
     <Content Include="app\Resources\views\blog\add.html.twig" />
