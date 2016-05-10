@@ -1,6 +1,14 @@
+{% extends "blog/layout.html.twig" %}
+
+{% block title %}
+{{ parent() }} - Accueil
+{% endblock %}
+{% block body %}
+
 <article>
   <h1>
     {{article.titre}}
+    <a href="{{path('blog_edit',{id:article.id})}}" class="btn btn-xs btn-info">Edition</a>
   </h1>
   <p>{{article.contenu|raw}}<br>
     <em>{{article.dateCreation|date('d-m-Y')}}</em>
@@ -10,5 +18,9 @@
 
 {{dump(article)}}
 
-</body>
+<br/>
 
+<a href="{{path('blog_homepage',{id:article.id})}}">Retour</a>
+
+
+{% endblock %}

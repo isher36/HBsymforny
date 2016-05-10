@@ -1,1 +1,17 @@
-ceci est un formulaire !
+<!--<form action="{{path('blog_edit',{id:article.id})}}" methode="POST">
+
+    <article>
+        <h1>
+            <input type="text" value="{{article.titre}}" />
+        </h1>
+        <p>
+            {{article.contenu|raw}}<br>
+            <em>{{article.dateCreation|date('d-m-Y')}}</em>
+            </br>
+        </p>
+    </article>
+</form>-->
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}

@@ -54,7 +54,14 @@ class Article
      *
      * @ORM\Column(name="publication", type="boolean")
      */
+
     private $publication;
+    /**
+     * @var string
+     *
+     * @ORM\OneToOne(targetEntity="Image", cascade={"persist","remove"})
+     */
+    private $image;
 
     /**
      * Get id
@@ -209,9 +216,33 @@ class Article
     {
         return $this->publication;
     }
-
+    
     public function __construct(){
-            $this->setDateCreation(new \DateTime());
-            $this->setPublication(true);
+        $this->setDateCreation(new \DateTime());
+        $this->setPublication(true);
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Article
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

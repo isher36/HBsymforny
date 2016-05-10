@@ -52,17 +52,13 @@
     <Content Include="phpunit.xml.dist" />
     <Content Include="README.md" />
     <Content Include="src\.htaccess" />
-    <Content Include="var\bootstrap.php.cache" />
-    <Content Include="var\cache\.gitkeep" />
-    <Content Include="var\logs\.gitkeep" />
-    <Content Include="var\logs\dev.log" />
-    <Content Include="var\sessions\.gitkeep" />
     <Content Include="web\.htaccess" />
     <Content Include="web\apple-touch-icon.png" />
     <Content Include="web\bundles\framework" />
     <Content Include="web\css\myStyle.css" />
     <Content Include="web\favicon.ico" />
     <Content Include="web\robots.txt" />
+    <Content Include="web\script\myscript.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\" />
@@ -80,13 +76,10 @@
     <Folder Include="tests\" />
     <Folder Include="tests\AppBundle\" />
     <Folder Include="tests\AppBundle\Controller\" />
-    <Folder Include="var\" />
-    <Folder Include="var\cache\" />
-    <Folder Include="var\logs\" />
-    <Folder Include="var\sessions\" />
     <Folder Include="web\" />
     <Folder Include="web\bundles\" />
     <Folder Include="web\css\" />
+    <Folder Include="web\script\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app\AppCache.php" />
@@ -96,9 +89,12 @@
     <Compile Include="src\AppBundle\Controller\BlogController.php" />
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
     <Compile Include="src\AppBundle\Entity\Article.php" />
+    <Compile Include="src\AppBundle\Entity\Commentaire.php" />
+    <Compile Include="src\AppBundle\Entity\Image.php" />
     <Compile Include="src\AppBundle\Repository\ArticleRepository.php" />
+    <Compile Include="src\AppBundle\Repository\CommentaireRepository.php" />
+    <Compile Include="src\AppBundle\Repository\ImageRepository.php" />
     <Compile Include="tests\AppBundle\Controller\DefaultControllerTest.php" />
-    <Compile Include="var\SymfonyRequirements.php" />
     <Compile Include="web\app.php" />
     <Compile Include="web\app_dev.php" />
     <Compile Include="web\config.php" />

@@ -11,14 +11,23 @@
     <div class="row">
         {% for article in articles  %}
         <div class="col-xs-4">
-            {{ article.titre }}
-            {% if article.image is defined  %}
-            <img src='{{article.image}}' />
-            {% endif %}
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <a href="{{path('blog_detail',{id:article.id})}}">{{ article.titre }}</a>
+                    <a href="{{path('blog_remove',{id:article.id})}}" class="btn btn-danger btn-xs">X</a>
+                </div>
+                {% if article.Image is not null and article.image.Url != ""  %}
+                <div class="panel-body">
+                    <img src='{{article.Image.Url}}' alt="{{article.Image.Alt}}" />
+                </div>
+                {% endif %}
+            </div>
         </div>
         {% else %}
         <div class="col-xs-4">aucun article trouvé</div>
+
         {% endfor %}
+
     </div>
 </div>
-{% endblock %}
+    {% endblock %}

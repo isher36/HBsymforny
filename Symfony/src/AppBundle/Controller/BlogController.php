@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Article;
+use AppBundle\Entity\Image;
 
 /**
  * @Route("/blog")
@@ -19,28 +20,9 @@ class BlogController extends Controller
      */
     public function indexAction(Request $request, $page)
     {
-        $articles = [
-            ['id' => 1,
-            'titre' => 'hello world 1',
-            'contenu'=> 'Lorem <strong>ipsum</strong>...',
-            'date' => new \DateTime(),
-            'image'=> 'https://robohash.org/hello',
-            ],
-            [
-            'id' => 2,
-            'titre' => 'hello world 2',
-            'contenu'=> 'Lorem <strong>ipsum</strong>...',
-            'date' => new \DateTime(),
-            'image'=> 'https://robohash.org/hello',
-            ],
-                        [
-            'id' => 3,
-            'titre' => 'hello world 3',
-            'contenu'=> 'Lorem <strong>ipsum</strong>...',
-            'date' => new \DateTime(),
-            'image'=> 'https://robohash.org/hello',
-            ]
-            ];
+        $repA = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+
+        $articles = $repA->findAll();
 
         return $this->render('blog/index.html.twig', [
             'articles' => $articles,
@@ -59,22 +41,38 @@ class BlogController extends Controller
 
         $article = $repA->find($id);
 
-
         return $this->render('blog/detail.html.twig', [
                 'article' => $article,
             ]);
     }
     /**
      * @Route("/edit/{id}", name="blog_edit",
-     * defaults={"id":1},
      * requirements={"id":"\d+"})
      */
     public function editAction(Request $request,$id)
     {
+        $em = $this->getDoctrine()->getManager();
+        $repA = $em->getRepository('AppBundle:Article');
+
+        $article = $repA->find($id);
+        if ( $article->getImage() == null)
+        {
+            $img = new Image();
+            $img->setAlt('mon image')
+                ->setUrl("https://robohash.org/" . md5(uniqid()));
+
+            $article->setImage($img);
+            $em->flush();
+        }
+        $form = $this->createForm(ArticleType::class , $article);
+
         return $this->render('blog/edit.html.twig', [
-                'id' => $id,
+                    'id' => $id,
+                    'article' => $article,
+                     'form' => $form->createView(),
             ]);
     }
+
     /**
      * @Route("/add/{id}", name="blog_add",
      * defaults={"id":1},
@@ -85,7 +83,8 @@ class BlogController extends Controller
         $article = new Article();
         $article->setAuteur('moi')
                 ->setContenu('Lorem ipsum')
-                ->setTitre('hello world ;)');
+                ->setTitre('hello world ;)')
+                ->setImage('https://robohash.org/hello');
 
         //$doctrine =$this->getDoctrine();
         //$em = $doctrine->getManager();
@@ -111,27 +110,32 @@ class BlogController extends Controller
      */
     public function removeAction(Request $request,$id)
     {
-        return $this->render('blog/remove.html.twig', [
-                'id' => $id,
-            ]);
+        $em = $this->getDoctrine()->getManager();
+        $repA = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+
+        $article = $repA->find($id);
+
+        try {
+            $em->remove($article);
+            $em->flush();
+            return  $this->redirectToRoute('blog_homepage');
+        }
+        catch(\PDOException $e){
+            exit($e->getMessage());
+        }
+
+        //return $this->render('blog/remove.html.twig', [
+        //        'article' => $article,
+        //    ]);
     }
 
     public function footerAction(Request $request)
     {
-        $articles = [
-            ['id' => 1,
-            'titre' => 'hello world 1',
-            'contenu'=> 'Lorem <strong>ipsum</strong>...',
-            'date' => new \DateTime(),
-            'image'=> 'https://robohash.org/hello',
-            ],
-            [
-            'id' => 2,
-            'titre' => 'hello world 2',
-            'contenu'=> 'Lorem <strong>ipsum</strong>...',
-            'date' => new \DateTime(),
-            ]
-            ];
+        $repA = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+
+        $articles = $repA->findBy(array(),array('dateCreation' => 'desc'),3,0);
+
+
 
         return $this->render('blog/footer.html.twig', [
             'articles' => $articles,
