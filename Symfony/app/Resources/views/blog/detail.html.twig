@@ -1,13 +1,14 @@
 <article>
   <h1>
-    {{article['titre']}}
+    {{article.titre}}
   </h1>
   <p>{{article.contenu|raw}}<br>
-    <em>{{article.date|date('d-m-Y')}}</em>
+    <em>{{article.dateCreation|date('d-m-Y')}}</em>
   </br>
 </p>
 </article>
 
+{{dump(article)}}
 
 </body>
 

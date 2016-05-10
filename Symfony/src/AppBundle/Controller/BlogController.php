@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Article;
 
 /**
  * @Route("/blog")
@@ -48,25 +49,23 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/detail/{id}", name="blog_detail_homepage",
+     * @Route("/detail/{id}", name="blog_detail",
      * defaults={"id":1},
      * requirements={"id":"\d+"})
      */
     public function detailAction(Request $request,$id)
     {
-        $article = [
-            'id' => $id,
-            'titre' => 'hello world',
-            'contenu'=> 'Lorem <strong>ipsum</strong>...',
-            'date' => new \DateTime(),
-            ];
+        $repA = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+
+        $article = $repA->find($id);
+
 
         return $this->render('blog/detail.html.twig', [
                 'article' => $article,
             ]);
     }
     /**
-     * @Route("/edit/{id}", name="blog_edit_homepage",
+     * @Route("/edit/{id}", name="blog_edit",
      * defaults={"id":1},
      * requirements={"id":"\d+"})
      */
@@ -77,18 +76,36 @@ class BlogController extends Controller
             ]);
     }
     /**
-     * @Route("/add/{id}", name="blog_add_homepage",
+     * @Route("/add/{id}", name="blog_add",
      * defaults={"id":1},
      * requirements={"id":"\d+"})
      */
     public function addAction(Request $request,$id)
     {
-        return $this->render('blog/add.html.twig', [
-                'id' => $id,
-            ]);
+        $article = new Article();
+        $article->setAuteur('moi')
+                ->setContenu('Lorem ipsum')
+                ->setTitre('hello world ;)');
+
+        //$doctrine =$this->getDoctrine();
+        //$em = $doctrine->getManager();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($article);
+        try {
+            $em->flush();
+            return  $this->redirectToRoute('blog_detail',['id'=>$article->getId()]);
+        }
+        catch(\PDOException $e){
+            exit($e->getMessage());
+        }
+        //return $this->render('blog/add.html.twig', [
+        //        'id' => $id,
+        //        'article' => $article,
+        //    ]);
     }
     /**
-     * @Route("/remove/{id}", name="blog_remove_homepage",
+     * @Route("/remove/{id}", name="blog_remove",
      * defaults={"id":1},
      * requirements={"id":"\d+"})
      */

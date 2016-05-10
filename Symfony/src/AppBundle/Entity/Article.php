@@ -45,10 +45,16 @@ class Article
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="dateCreation", type="datetime")
      */
-    private $date;
 
+    private $dateCreation;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="publication", type="boolean")
+     */
+    private $publication;
 
     /**
      * Get id
@@ -155,5 +161,57 @@ class Article
     {
         return $this->date;
     }
-}
 
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     *
+     * @return Article
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set publication
+     *
+     * @param boolean $publication
+     *
+     * @return Article
+     */
+    public function setPublication($publication)
+    {
+        $this->publication = $publication;
+
+        return $this;
+    }
+
+    /**
+     * Get publication
+     *
+     * @return boolean
+     */
+    public function getPublication()
+    {
+        return $this->publication;
+    }
+
+    public function __construct(){
+            $this->setDateCreation(new \DateTime());
+            $this->setPublication(true);
+    }
+}

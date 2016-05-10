@@ -75,6 +75,8 @@
     <Folder Include="src\" />
     <Folder Include="src\AppBundle\" />
     <Folder Include="src\AppBundle\Controller\" />
+    <Folder Include="src\AppBundle\Entity\" />
+    <Folder Include="src\AppBundle\Repository\" />
     <Folder Include="tests\" />
     <Folder Include="tests\AppBundle\" />
     <Folder Include="tests\AppBundle\Controller\" />
@@ -93,6 +95,8 @@
     <Compile Include="src\AppBundle\AppBundle.php" />
     <Compile Include="src\AppBundle\Controller\BlogController.php" />
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
+    <Compile Include="src\AppBundle\Entity\Article.php" />
+    <Compile Include="src\AppBundle\Repository\ArticleRepository.php" />
     <Compile Include="tests\AppBundle\Controller\DefaultControllerTest.php" />
     <Compile Include="var\SymfonyRequirements.php" />
     <Compile Include="web\app.php" />
