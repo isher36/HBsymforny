@@ -16,6 +16,12 @@
 </p>
 </article>
 
+ {% for com in coms  %}
+<div>
+    {{com.contenu}}
+</div>
+{% endfor%}
+
 {{dump(article)}}
 {{dump(coms)}}
 

@@ -89,9 +89,11 @@
     <Compile Include="src\AppBundle\Controller\BlogController.php" />
     <Compile Include="src\AppBundle\Controller\DefaultController.php" />
     <Compile Include="src\AppBundle\Entity\Article.php" />
+    <Compile Include="src\AppBundle\Entity\Categorie.php" />
     <Compile Include="src\AppBundle\Entity\Commentaire.php" />
     <Compile Include="src\AppBundle\Entity\Image.php" />
     <Compile Include="src\AppBundle\Repository\ArticleRepository.php" />
+    <Compile Include="src\AppBundle\Repository\CategorieRepository.php" />
     <Compile Include="src\AppBundle\Repository\CommentaireRepository.php" />
     <Compile Include="src\AppBundle\Repository\ImageRepository.php" />
     <Compile Include="tests\AppBundle\Controller\DefaultControllerTest.php" />

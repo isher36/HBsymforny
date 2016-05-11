@@ -166,8 +166,6 @@ class BlogController extends Controller
 
         $articles = $repA->findBy(array(),array('dateCreation' => 'desc'),3,0);
 
-
-
         return $this->render('blog/footer.html.twig', [
             'articles' => $articles,
         ]);
