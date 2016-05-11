@@ -8,8 +8,10 @@
     <h1>
         {{page}}
     </h1>
+    {% for cat in categories %}
     <div class="row">
-        {% for article in articles  %}
+        <h1>{{cat.titre}}</h1>
+        {% for article in cat.articles  %}
         <div class="col-xs-4">
             <div class="panel panel-danger">
                 <div class="panel-heading">
@@ -27,7 +29,7 @@
         <div class="col-xs-4">aucun article trouvé</div>
 
         {% endfor %}
-
     </div>
+    {% endfor %}
 </div>
     {% endblock %}

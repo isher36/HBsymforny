@@ -15,13 +15,20 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository
         //$qb = $this->_em->createQueryBuilder()->from($this->_entityName, 'a')->select('a');
         // = -> $qb = $this->createQueryBuilder('a');
 
+        $pub = 1;
+
         $qb = $this->createQueryBuilder('a')
                 ->leftJoin('a.image','i')
                 ->leftJoin('a.categories','c')
-                ->orderBy('a.date','DESC')
+                //->where('a.publication = '.$pub)
+                //->setParameter('pub',$pub)
+                ->where('a.publication = ?1')
+                ->setParameter(1,$pub)
+
+                ->orderBy('a.dateCreation','DESC')  
 
                 ->addSelect('i')
-                ->addSelect('c')  ;
+                ->addSelect('c') ;
 
         $query = $qb->getQuery();
         return $query->getResult();

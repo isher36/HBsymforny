@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\Image;
 use AppBundle\Entity\Commentaire;
+use AppBundle\Entity\Categorie;
 
 //use AppBundle\Form\ArticleType;
 
@@ -23,12 +24,17 @@ class BlogController extends Controller
      */
     public function indexAction(Request $request, $page)
     {
-        $repA = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+        //$repA = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+        $repA = $this->getDoctrine()->getManager()->getRepository('AppBundle:Categorie');
 
-        $articles = $repA->findAll();
+        //$articles = $repA->findAll();
+        //$articles = $repA->getArticleIndex();
+
+        $categories = $repA->getCategorieIndex();
 
         return $this->render('blog/index.html.twig', [
-            'articles' => $articles,
+            //'articles' => $articles,
+            'categories' => $categories,
             'page' => $page,
         ]);
     }
@@ -42,13 +48,13 @@ class BlogController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $repA = $em->getRepository('AppBundle:Article');
-                
+
         $article = $repA->find($id);
 
         $repC =$em->getRepository('AppBundle:Commentaire');
 
         $coms = $repC->findBy(array('article' => $article),array('dateCreation' => 'desc'));
-        
+
         return $this->render('blog/detail.html.twig', [
                 'article' => $article,
                 'coms' => $coms
@@ -71,19 +77,23 @@ class BlogController extends Controller
                 ->setUrl("https://robohash.org/" . md5(uniqid()));
 
             $article->setImage($img);
-            $em->flush();
         }
+        
+        //$repC = $em->getRepository('AppBundle:Categorie');
 
-        $com = new Commentaire();
-        $com->setAuteur('toto')->setContenu('Ceci est un commentaire !!!');
+        //$cat = $repC->find(1) ;
+        //$article->addCategory($cat);
+                
+        //$com = new Commentaire();
+        //$com->setAuteur('toto')->setContenu('Ceci est un commentaire !!!');
 
-        $com->setArticle($article);
-        $em->persist($com);
+        //$com->setArticle($article);
+        //$em->persist($com);
 
-        $com2 = new Commentaire();
-        $com2->setAuteur('tata')->setContenu('Ceci est un autre commentaire !!!');
-        $com2->setArticle($article);
-        $em->persist($com2);
+        //$com2 = new Commentaire();
+        //$com2->setAuteur('tata')->setContenu('Ceci est un autre commentaire !!!');
+        //$com2->setArticle($article);
+        //$em->persist($com2);
 
         try{
             $em->flush();
@@ -111,16 +121,22 @@ class BlogController extends Controller
      */
     public function addAction(Request $request,$id)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $article = new Article();
         $article->setAuteur('moi')
                 ->setContenu('Lorem ipsum')
-                ->setTitre('hello world ;)')
-                ->setImage('https://robohash.org/hello');
+                ->setTitre('hello world ;)')    ;
+        
+        $img = new Image();
+        $img->setAlt('mon image')
+            ->setUrl("https://robohash.org/" . md5(uniqid()));
+        $article->setImage($img);
 
-        //$doctrine =$this->getDoctrine();
-        //$em = $doctrine->getManager();
+        $repC = $em->getRepository('AppBundle:Categorie');
+        $cat = $repC->find(2) ;
+        $article->addCategory($cat);        
 
-        $em = $this->getDoctrine()->getManager();
         $em->persist($article);
         try {
             $em->flush();
