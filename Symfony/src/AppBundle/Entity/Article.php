@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Article
  *
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ArticleRepository")
  */
@@ -326,16 +327,6 @@ class Article
     {
         return $this->commentaires;
     }
-
-
-    public function __construct(){
-        $this->setDateCreation(new \DateTime());
-        $this->setPublication(true);
-
-        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
     /**
      * Set dateModification
      *
@@ -359,4 +350,23 @@ class Article
     {
         return $this->dateModification;
     }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDateModification()
+    {
+        $this->setDateModification(new \DateTime);
+    }
+
+    public function __construct(){
+        $this->setDateCreation(new \DateTime());
+        $this->setDateModification(new \DateTime());
+        $this->setPublication(true);
+
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
 }

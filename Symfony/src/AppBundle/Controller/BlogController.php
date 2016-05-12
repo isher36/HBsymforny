@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\Image;
 use AppBundle\Entity\Commentaire;
@@ -32,7 +33,7 @@ class BlogController extends Controller
 
         $categories = $repC->getCategorieIndex();
         $totalA = $repA->getTotalArticle();
-        
+
         return $this->render('blog/index.html.twig', [
             //'articles' => $articles,
             'categories' => $categories,
@@ -77,15 +78,16 @@ class BlogController extends Controller
             $img = new Image();
             $img->setAlt('mon image')
                 ->setUrl("https://robohash.org/" . md5(uniqid()));
-
             $article->setImage($img);
         }
-        
+
+        $article->setTitre('update');
+
         //$repC = $em->getRepository('AppBundle:Categorie');
 
         //$cat = $repC->find(1) ;
         //$article->addCategory($cat);
-                
+
         //$com = new Commentaire();
         //$com->setAuteur('toto')->setContenu('Ceci est un commentaire !!!');
 
@@ -106,6 +108,15 @@ class BlogController extends Controller
 
 
 
+        $formBuilder = $this->createFormBuilder($article);
+        $formBuilder -> add('titre', Type\TextType::class)
+                ->add('contenu', Type\TextareaType::class)
+                ->add('auteur', Type\TextType::class)
+                ->add('dateCreation', Type\DateType::class)
+                ->add('publication', Type\CheckboxType::class , ['required' => false])
+                //->add('image',  new Image() )
+                ->add('submit', Type\SubmitType::class, ['label' => 'Envoyer'])
+                ;
 
         // $form = $this->createForm(ArticleType::class , $article);
 
@@ -123,34 +134,48 @@ class BlogController extends Controller
      */
     public function addAction(Request $request,$id)
     {
-        $em = $this->getDoctrine()->getManager();
+      
 
         $article = new Article();
-        $article->setAuteur('moi')
-                ->setContenu('Lorem ipsum')
-                ->setTitre('hello world ;)')    ;
-        
-        $img = new Image();
-        $img->setAlt('mon image')
-            ->setUrl("https://robohash.org/" . md5(uniqid()));
-        $article->setImage($img);
 
-        $repC = $em->getRepository('AppBundle:Categorie');
-        $cat = $repC->find(2) ;
-        $article->addCategory($cat);        
+        $formBuilder = $this->createFormBuilder($article);
+        $formBuilder -> add('titre', Type\TextType::class)
+                ->add('contenu', Type\TextareaType::class)
+                ->add('auteur', Type\TextType::class)
+                ->add('dateCreation', Type\DateType::class)
+                 ->add('publication', Type\CheckboxType::class , ['required' => false])
+                //->add('image', new \AppBundle\Entity\ImageType() )
+                ->add('submit', Type\SubmitType::class, ['label' => 'Envoyer'])
+                ;
 
-        $em->persist($article);
-        try {
-            $em->flush();
-            return  $this->redirectToRoute('blog_detail',['id'=>$article->getId()]);
-        }
-        catch(\PDOException $e){
-            exit($e->getMessage());
-        }
-        //return $this->render('blog/add.html.twig', [
-        //        'id' => $id,
-        //        'article' => $article,
-        //    ]);
+        $form = $formBuilder->getForm();
+
+        //$article->setAuteur('moi')
+        //        ->setContenu('Lorem ipsum')
+        //        ->setTitre('hello world ;)')    ;
+
+        //$img = new Image();
+        //$img->setAlt('mon image')
+        //    ->setUrl("https://robohash.org/" . md5(uniqid()));
+        //$article->setImage($img);
+        //$em = $this->getDoctrine()->getManager();
+        //$repC = $em->getRepository('AppBundle:Categorie');
+        //$cat = $repC->find(2) ;
+        //$article->addCategory($cat);
+
+        //$em->persist($article);
+        //try {
+        //    $em->flush();
+        //    return  $this->redirectToRoute('blog_detail',['id'=>$article->getId()]);
+        //}
+        //catch(\PDOException $e){
+        //    exit($e->getMessage());
+        //}
+
+        return $this->render('blog/add.html.twig', [
+              //  'id' => $id,
+                'form' => $form->createView(),
+            ]);
     }
     /**
      * @Route("/remove/{id}", name="blog_remove",

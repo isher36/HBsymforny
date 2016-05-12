@@ -1,7 +1,6 @@
-<h1>add :
-	{{id}}
-</h1>
-{{dump(article)}}
-</body>
-
+{% extends 'blog/layout.html.twig' %}
+{% block body %}
+<h2>Ajouter un article</h2>
+{% include 'blog/form.html.twig' %}
+{% endblock %}
 

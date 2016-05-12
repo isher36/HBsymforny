@@ -72,6 +72,7 @@
     <Folder Include="src\AppBundle\" />
     <Folder Include="src\AppBundle\Controller\" />
     <Folder Include="src\AppBundle\Entity\" />
+    <Folder Include="src\AppBundle\Form\" />
     <Folder Include="src\AppBundle\Repository\" />
     <Folder Include="tests\" />
     <Folder Include="tests\AppBundle\" />
@@ -92,6 +93,8 @@
     <Compile Include="src\AppBundle\Entity\Categorie.php" />
     <Compile Include="src\AppBundle\Entity\Commentaire.php" />
     <Compile Include="src\AppBundle\Entity\Image.php" />
+    <Compile Include="src\AppBundle\Form\ArticleType.php" />
+    <Compile Include="src\AppBundle\Form\ImageType.php" />
     <Compile Include="src\AppBundle\Repository\ArticleRepository.php" />
     <Compile Include="src\AppBundle\Repository\CategorieRepository.php" />
     <Compile Include="src\AppBundle\Repository\CommentaireRepository.php" />

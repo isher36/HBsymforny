@@ -1,14 +1,17 @@
-<form action="{{path('blog_edit',{id:article.id})}}" methode="POST">
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+{# {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %} #}
 
-    <article>
-        <h1>
-            <input type="text" value="{{article.titre}}" />
-        </h1>
-        <p>
-            {{article.contenu|raw}}<br>
-            <em>{{article.dateCreation|date('d-m-Y')}}</em>
-            
-        </p>
-    </article>
-</form>
+{{ form_start(form, {'attr': {'class': 'my-form-class'} }) }}
+
+{#{{ form_widget(form) }}#}
+
+{{form_row(form.auteur)}}<hr />
+
+{{form_label(form.titre,"Veuillez saisir le titre de l'article", {'labelc²_attr':{'class':'maclasse','title':'le titre'} })}}<br />
+{{form_widget(form.titre,{'attr':{'placeholder':"Veuillez saisir le titre de l'article"}})}}<br />
+{{form_errors(form.titre)}}
+
+<hr />
+
+{{ form_end(form) }}
 
