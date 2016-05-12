@@ -33,5 +33,13 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository
         $query = $qb->getQuery();
         return $query->getResult();
     }
+
+    public function getTotalArticle()
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('COUNT(a)');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }
 

@@ -47,14 +47,19 @@ class Article
      *
      * @ORM\Column(name="dateCreation", type="datetime")
      */
-
     private $dateCreation;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateModification", type="datetime")
+     */
+    private $dateModification;
+
     /**
      * @var boolean
      *
      * @ORM\Column(name="publication", type="boolean")
      */
-
     private $publication;
     /**
      * @var Image
@@ -329,5 +334,29 @@ class Article
 
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
         $this->commentaires = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     *
+     * @return Article
+     */
+    public function setDateModification($dateModification)
+    {
+        $this->dateModification = $dateModification;
+
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return \DateTime
+     */
+    public function getDateModification()
+    {
+        return $this->dateModification;
     }
 }

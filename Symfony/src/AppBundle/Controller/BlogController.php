@@ -24,18 +24,20 @@ class BlogController extends Controller
      */
     public function indexAction(Request $request, $page)
     {
-        //$repA = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
-        $repA = $this->getDoctrine()->getManager()->getRepository('AppBundle:Categorie');
+        $repA = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+        $repC = $this->getDoctrine()->getManager()->getRepository('AppBundle:Categorie');
 
         //$articles = $repA->findAll();
         //$articles = $repA->getArticleIndex();
 
-        $categories = $repA->getCategorieIndex();
-
+        $categories = $repC->getCategorieIndex();
+        $totalA = $repA->getTotalArticle();
+        
         return $this->render('blog/index.html.twig', [
             //'articles' => $articles,
             'categories' => $categories,
             'page' => $page,
+            'totalArticle' => $totalA,
         ]);
     }
 

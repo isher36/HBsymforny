@@ -10,23 +10,27 @@ namespace AppBundle\Repository;
  */
 class CategorieRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getCategorieIndex(){
+    public function getCategorieIndex($catId = null){
         //$qb = $this->_em->createQueryBuilder()->from($this->_entityName, 'a')->select('a');
         // = -> $qb = $this->createQueryBuilder('a');
 
         $pub = 1;
 
-        $qb = $this->createQueryBuilder('c')
-                ->leftJoin('c.articles','a')
+        $qb = $this->createQueryBuilder('c');
+
+        $qb ->leftJoin('c.articles','a')
                 ->leftJoin('a.image','i')
-                ->where('a.publication = ?1')
-                ->setParameter(1,$pub)
-
-                //->orderBy('a.dateCreation','DESC')
-                //->orderBy('a.dateCreation','DESC')
-
+                ->where('a.publication = :pub')
+                ->setParameter('pub' ,$pub  )
                 ->addSelect('a')
-                ->addSelect('i') ;
+                ->addSelect('i')
+                ;
+
+
+        if ( $catId != null)
+            $qb->andWhere('c.id = :catId')->setParameter('catId', $catId);
+
+
 
         $query = $qb->getQuery();
         return $query->getResult();
