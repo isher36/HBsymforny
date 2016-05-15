@@ -246,3 +246,4 @@ ModelManifest.xml
 
 # Symfony var
 /var
+/Symfony/web/images

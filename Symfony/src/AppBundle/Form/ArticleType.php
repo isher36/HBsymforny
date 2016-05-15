@@ -5,6 +5,10 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Form;
+use AppBundle\Entity\Categorie;
 
 class ArticleType extends AbstractType
 {
@@ -15,17 +19,31 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('titre')
-            ->add('contenu')
-            ->add('auteur')
-            ->add('dateCreation', 'datetime')
-            ->add('dateModification', 'datetime')
-            ->add('publication')
-            ->add('image')
-            ->add('categories')
+            ->add('categories', EntityType::class,
+            [
+            'class'   => Categorie::class ,
+            'choice_label' => 'titre',
+            'expanded' => true,
+            'multiple' => true,
+            'query_builder' => function($er)
+                {
+                    $qb = $er->createQueryBuilder('c')
+                        ->orderBy('c.titre','DESC');
+                    return $qb;
+                }
+            ])
+
+           -> add('titre', Type\TextType::class)
+                ->add('contenu', Type\TextareaType::class)
+                ->add('auteur', Type\TextType::class)
+                ->add('dateCreation', Type\DateType::class)
+                 ->add('publication', Type\CheckboxType::class , ['required' => false])
+                ->add('image', ImageType::class )
+                ->add('submit', Type\SubmitType::class, ['label' => 'Envoyer'])
+
         ;
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */

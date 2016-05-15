@@ -1,12 +1,13 @@
-<div class="container jumbotron" style="margin-top:15px;">
-    <div class="row">Derniers Articles :</div>
-    <div class="row">
+<div class="container" style="margin-top:15px;">
+    <div class="jumbotron">
+        <div class="row">Derniers Articles :</div>
+        <div class="row">
 
-        {% for article in articles  %}
-        <div class="col-xs-4">
-            <a href="{{path('blog_detail',{id:article.id})}}">{{ article.titre }}</a>
+            {% for article in articles  %}
+            <div class="col-xs-4">
+                <a href="{{path('blog_detail',{id:article.id})}}">{{ article.titre }}</a>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-
     </div>
 </div>

@@ -21,7 +21,11 @@
                 </div>
                 {% if article.Image is not null and article.image.Url != ""  %}
                 <div class="panel-body">
-                    <img src='{{article.Image.Url}}' alt="{{article.Image.Alt}}" />
+                    {% if article.image.Url starts with  'http' %}
+                    <img src='{{article.image.Url}}' alt="{{article.Image.Alt}}" />
+                    {% else %}
+                    <img src='{{asset("/images/")}}{{article.image.url}}' alt="{{article.image.alt}}" />
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>

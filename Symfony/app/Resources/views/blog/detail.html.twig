@@ -5,28 +5,84 @@
 {% endblock %}
 {% block body %}
 
-<article>
-  <h1>
-    {{article.titre}}
-    <a href="{{path('blog_edit',{id:article.id})}}" class="btn btn-xs btn-info">Edition</a>
-  </h1>
-  <p>{{article.contenu|raw}}<br>
-    <em>{{article.dateCreation|date('d-m-Y')}}</em>
-</p>
-</article>
-
- {% for com in coms  %}
-<div>
-    {{com.contenu}}
+<div class="row">
+    {% for message in app.session.flashbag.get('info')  %}
+    <p class="alert alert-success"> {{message}}</p>
+    {% endfor %}
 </div>
-{% endfor%}
+<div class="row">
 
-{{dump(article)}}
-{{dump(coms)}}
+    <div class="col-xs-4">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <a href="{{path('blog_edit',{id:article.id})}}" class="btn btn-xs btn-info">Edition</a>
+                <a href="{{path('blog_remove',{id:article.id})}}" class="btn btn-danger btn-xs">X</a>
+            </div>
+            {% if article.Image is not null and article.image.Url != ""  %}
+            <div class="panel-body">
+                {% if article.image.Url starts with  'http' %}
+                <img src='{{article.image.Url}}' alt="{{article.Image.Alt}}" />
+                {% else %}
+                <img src='{{asset("/images/")}}{{article.image.url}}' alt="{{article.image.alt}}" />
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
 
-<br/>
+    <div class="col-xs-8">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                {{article.titre}}
+            </div>
+            <div class="panel-body">
+                {{article.contenu|raw}}<br>
+                <em>{{article.dateCreation|date('d-m-Y')}}</em>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#myModal">Laissez nous un commentaire !</button>
+        </div>
+        <hr />
+        <div class="row">
+            {% for com in article.commentaires %}
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    {{com.auteur}}<br />
+                    <em> ajouter le {{com.dateCreation|date('d/m/Y')}}</em>
+                </div>
+                <div class="panel-body">
+                    {{com.contenu}}
+                </div>
+            </div>
+            {% endfor%}
+        </div>
+    </div>
+</div>
 
-<a href="{{path('blog_homepage',{id:article.id})}}">Retour</a>
 
+<div class="row">
+    <div class="jumbotron">
+        {{dump(article)}}
+    </div>
+</div>
 
+<div class="row">
+    <a href="{{path('blog_homepage',{id:article.id})}}">Retour</a>
+</div>
+
+<!-- modal commentaire -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Ajouter un commentaire</h4>
+            </div>
+            <div class="modal-body">
+                {% include 'blog/formCommentaire.html.twig' %}
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 {% endblock %}

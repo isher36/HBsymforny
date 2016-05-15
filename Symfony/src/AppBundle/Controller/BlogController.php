@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type;
@@ -10,6 +11,7 @@ use AppBundle\Entity\Article;
 use AppBundle\Entity\Image;
 use AppBundle\Entity\Commentaire;
 use AppBundle\Entity\Categorie;
+use AppBundle\Form;
 
 //use AppBundle\Form\ArticleType;
 
@@ -44,139 +46,144 @@ class BlogController extends Controller
 
     /**
      * @Route("/detail/{id}", name="blog_detail",
-     * defaults={"id":1},
-     * requirements={"id":"\d+"})
+     * defaults={"id":1},requirements={"id":"\d+"})
+     * @method("GET")
      */
     public function detailAction(Request $request,$id)
     {
+        // on recup l'article en base
         $em = $this->getDoctrine()->getManager();
         $repA = $em->getRepository('AppBundle:Article');
-
         $article = $repA->find($id);
 
-        $repC =$em->getRepository('AppBundle:Commentaire');
+        $com = new Commentaire();
 
-        $coms = $repC->findBy(array('article' => $article),array('dateCreation' => 'desc'));
+        $form = $this->createForm(Form\CommentaireType::class, $com) ;
 
         return $this->render('blog/detail.html.twig', [
                 'article' => $article,
-                'coms' => $coms
+                'form' => $form->createView(),
             ]);
     }
     /**
-     * @Route("/edit/{id}", name="blog_edit",
-     * requirements={"id":"\d+"})
+     * @Route("/detail/{id}", name="blog_detailPost",
+     * defaults={"id":1},requirements={"id":"\d+"})
+     * @method("POST")
+     */
+    public function detailActionPost(Request $request,$id)
+    {
+        $article = $this->getArticleFromForm($id);
+        $commentaire =new Commentaire();
+        $form = $this->createForm(Form\CommentaireType::class, $commentaire) ;
+        $form->handleRequest($request);
+        $commentaire->setArticle($article);
+
+        return $this->updateObjetInDb($form,$commentaire,"blog_detail","blog/detail.html.twig") ;
+    }
+    /**
+     * @Route("/edit/{id}", name="blog_edit",requirements={"id":"\d+"})
+     * @method("GET")
      */
     public function editAction(Request $request,$id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $repA = $em->getRepository('AppBundle:Article');
-
-        $article = $repA->find($id);
-        if ( $article->getImage() == null)
-        {
-            $img = new Image();
-            $img->setAlt('mon image')
-                ->setUrl("https://robohash.org/" . md5(uniqid()));
-            $article->setImage($img);
-        }
-
-        $article->setTitre('update');
-
-        //$repC = $em->getRepository('AppBundle:Categorie');
-
-        //$cat = $repC->find(1) ;
-        //$article->addCategory($cat);
-
-        //$com = new Commentaire();
-        //$com->setAuteur('toto')->setContenu('Ceci est un commentaire !!!');
-
-        //$com->setArticle($article);
-        //$em->persist($com);
-
-        //$com2 = new Commentaire();
-        //$com2->setAuteur('tata')->setContenu('Ceci est un autre commentaire !!!');
-        //$com2->setArticle($article);
-        //$em->persist($com2);
-
-        try{
-            $em->flush();
-        }
-        catch(\PDOException $e){
-            exit($e->getMessage());
-        }
-
-
-
-        $formBuilder = $this->createFormBuilder($article);
-        $formBuilder -> add('titre', Type\TextType::class)
-                ->add('contenu', Type\TextareaType::class)
-                ->add('auteur', Type\TextType::class)
-                ->add('dateCreation', Type\DateType::class)
-                ->add('publication', Type\CheckboxType::class , ['required' => false])
-                //->add('image',  new Image() )
-                ->add('submit', Type\SubmitType::class, ['label' => 'Envoyer'])
-                ;
-
-        // $form = $this->createForm(ArticleType::class , $article);
+        $article = $this->getArticleFromForm($id);
+        $form = $this->createForm(Form\ArticleType::class,$article) ;
 
         return $this->render('blog/edit.html.twig', [
                     'id' => $id,
                     'article' => $article,
-                     //'form' => $form->createView(),
+                    'form' => $form->createView(),
             ]);
+    }
+    /**
+     * @Route("/edit/{id}", name="blog_editPost",
+     * requirements={"id":"\d+"})
+     * @method("POST")
+     */
+    public function editPostAction(Request $request,$id)
+    {
+        $article = $this->getArticleFromForm($id);
+        $form = $this->createForm(Form\ArticleType::class,$article) ;
+        $form->handleRequest($request);
+
+        return $this->updateObjetInDb($form,$article,"blog_detail","blog/edit.html.twig");
     }
 
     /**
      * @Route("/add/{id}", name="blog_add",
-     * defaults={"id":1},
-     * requirements={"id":"\d+"})
+     * defaults={"id":1},requirements={"id":"\d+"})
+     * @method("Get")
      */
     public function addAction(Request $request,$id)
     {
-      
-
+        $session = $this->get("session");
         $article = new Article();
-
-        $formBuilder = $this->createFormBuilder($article);
-        $formBuilder -> add('titre', Type\TextType::class)
-                ->add('contenu', Type\TextareaType::class)
-                ->add('auteur', Type\TextType::class)
-                ->add('dateCreation', Type\DateType::class)
-                 ->add('publication', Type\CheckboxType::class , ['required' => false])
-                //->add('image', new \AppBundle\Entity\ImageType() )
-                ->add('submit', Type\SubmitType::class, ['label' => 'Envoyer'])
-                ;
-
-        $form = $formBuilder->getForm();
-
-        //$article->setAuteur('moi')
-        //        ->setContenu('Lorem ipsum')
-        //        ->setTitre('hello world ;)')    ;
-
-        //$img = new Image();
-        //$img->setAlt('mon image')
-        //    ->setUrl("https://robohash.org/" . md5(uniqid()));
-        //$article->setImage($img);
-        //$em = $this->getDoctrine()->getManager();
-        //$repC = $em->getRepository('AppBundle:Categorie');
-        //$cat = $repC->find(2) ;
-        //$article->addCategory($cat);
-
-        //$em->persist($article);
-        //try {
-        //    $em->flush();
-        //    return  $this->redirectToRoute('blog_detail',['id'=>$article->getId()]);
-        //}
-        //catch(\PDOException $e){
-        //    exit($e->getMessage());
-        //}
+        $form = $this->createForm(Form\ArticleType::class,$article) ;
 
         return $this->render('blog/add.html.twig', [
-              //  'id' => $id,
-                'form' => $form->createView(),
+                    'id' => $article->getId(),
+                    'article' => $article,
+                    'form' => $form->createView(),
             ]);
     }
+    /**
+     * @Route("/add/{id}", name="blog_addPost",
+     * defaults={"id":1},requirements={"id":"\d+"})
+     * @method("POST")
+     */
+    public function addActionPOST(Request $request,$id)
+    {
+        $article = $this->getArticleFromForm($id);
+        $form = $this->createForm(Form\ArticleType::class,$article) ;
+        $form->handleRequest($request);
+
+        return $this->updateObjetInDb($form,$article,"blog_detail","blog/add.html.twig") ;
+    }
+    /**
+     * Get Article from Id
+     * @param mixed $id
+     * @return mixed
+     */
+    private function getArticleFromForm($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repA = $em->getRepository('AppBundle:Article');
+        $article = $repA->find($id);
+
+        return $article;
+    }
+    /**
+     * Summary of updateObjetInDb
+     * @param mixed $form
+     * @param mixed $objet
+     * @param mixed $view vues de retour
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    private function updateObjetInDb($form,$objet,$viewDest,$twigRetour)
+    {
+        $session = $this->get("session");
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($objet);
+            try {
+                $em->flush();
+                $session->getFlashBag() -> add ('info' ,utf8_encode ('données enregistré avec succés'));
+                return  $this->redirectToRoute($viewDest,['id'=>$objet->getId()]);
+            }
+            catch(\PDOException $e){
+                exit($e->getMessage());
+            }
+        }
+
+        return $this->render('blog/'.$twigRetour, [
+                    'id' => $objet->getId(),
+                    'article' => $objet,
+                    'form' => $form->createView(),
+            ]);
+    }
+
     /**
      * @Route("/remove/{id}", name="blog_remove",
      * defaults={"id":1},

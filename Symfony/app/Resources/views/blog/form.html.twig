@@ -1,5 +1,5 @@
-{% form_theme form 'bootstrap_3_layout.html.twig' %}
-{# {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %} #}
+{% form_theme form 'bootstrap_3_layout.html.twig' 'blog/ckeditor.html.twig' %}
+{# {% form_theme form 'bootstrap_3_horizontal_layout.html.twig'   %} #}
 
 {{ form_start(form, {'attr': {'class': 'my-form-class'} }) }}
 
@@ -7,11 +7,22 @@
 
 {{form_row(form.auteur)}}<hr />
 
-{{form_label(form.titre,"Veuillez saisir le titre de l'article", {'labelc²_attr':{'class':'maclasse','title':'le titre'} })}}<br />
+{{form_label(form.titre,"Veuillez saisir le titre de l'article", {'label_attr':{'class':'maclasse','title':'le titre'} })}}<br />
 {{form_widget(form.titre,{'attr':{'placeholder':"Veuillez saisir le titre de l'article"}})}}<br />
 {{form_errors(form.titre)}}
 
 <hr />
+
+{% if article.Image is not null and article.image.Url != ""  %}
+<div class="panel-body">
+    {% if article.image.Url starts with  'http' %}
+    <img src='{{article.image.Url}}' alt="{{article.Image.Alt}}" />
+    {% else %}
+    <img src='{{asset("/images/")}}{{article.image.url}}' alt="{{article.image.alt}}" />
+    {% endif %}
+</div>
+{% endif %}{{form_row(form.image)}}<hr />
+
 
 {{ form_end(form) }}
 

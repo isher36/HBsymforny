@@ -143,7 +143,7 @@ class Commentaire
      */
     public function setArticle(\AppBundle\Entity\Article $article)
     {
-        $this->Article = $article;
+        $this->article = $article;
 
         return $this;
     }

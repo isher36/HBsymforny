@@ -22,6 +22,7 @@ class CategorieRepository extends \Doctrine\ORM\EntityRepository
                 ->leftJoin('a.image','i')
                 ->where('a.publication = :pub')
                 ->setParameter('pub' ,$pub  )
+                ->orderBy('c.titre')
                 ->addSelect('a')
                 ->addSelect('i')
                 ;

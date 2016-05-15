@@ -6,9 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type;
-use AppBundle\Form;
+use AppBundle\Entity\Article;
 
-class ImageType extends AbstractType
+class CommentaireType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -17,9 +17,10 @@ class ImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('url', Type\TextType::class)
-            ->add('file', Type\FileType::class, ['required' => false])
-            ->add('alt', Type\TextType::class)
+            ->add('auteur',Type\TextType::class )
+            ->add('contenu' ,Type\TextareaType::class)
+            ->add('submit', Type\SubmitType::class, ['label' => 'Envoyer'])
+            
         ;
     }
 
@@ -29,7 +30,7 @@ class ImageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Image'
+            'data_class' => 'AppBundle\Entity\Commentaire'
         ));
     }
 }
